@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
 	public OnHitEnemyAction onHitEnemy;
 	public OnHitOrbAction onHitOrb;
 
+	[SerializeField]
 	private Bullet bullet;
 	private Rigidbody2D rb;
 
@@ -56,6 +57,12 @@ public class Player : MonoBehaviour {
 
 	private void GetInput () {
 		float xMove = Input.GetAxisRaw ("Horizontal");
+		if (xMove > 0) {
+			isLookingRight = true;
+		}
+		if (xMove < 0) {
+			isLookingRight = false;
+		}
 		rb.AddForce (new Vector2 (xMove * moveForce * Time.deltaTime, 0));
 
 		if (Input.GetAxisRaw("Vertical") > 0) {
@@ -78,10 +85,10 @@ public class Player : MonoBehaviour {
 		if (Time.timeScale == 1) {
 			Bullet bullet = Instantiate (
 				                this.bullet,
-				                transform.position,
+								transform.position,
 				                Quaternion.identity
 			) as Bullet;
-			bullet.transform.SetParent (transform);
+			//bullet.transform.SetParent (transform);
 			bullet.Direction = isLookingRight ? Vector2.right : Vector2.left;
 		}
 	}
